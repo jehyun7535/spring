@@ -9,7 +9,7 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import kr.or.ddit.user.UserVo;
+import kr.or.ddit.user.model.UserVo;
 
 //스프링 환경에서 junit 코드를 실행 ==> junit 코드도 스프링 빈으로 등록
 @RunWith(SpringJUnit4ClassRunner.class)

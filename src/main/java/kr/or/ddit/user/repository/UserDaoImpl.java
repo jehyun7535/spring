@@ -2,7 +2,7 @@ package kr.or.ddit.user.repository;
 
 import org.springframework.stereotype.Repository;
 
-import kr.or.ddit.user.UserVo;
+import kr.or.ddit.user.model.UserVo;
 
 // <bean id="" class=""
 // @Repository에서 별다른 설정을 하지 않으면 스프링 빈 이름으로 class 이름에서 첫글자를 소문자로 한

@@ -11,7 +11,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import kr.or.ddit.ioc.config.ComponentScanJavaConfig;
-import kr.or.ddit.user.UserVo;
+import kr.or.ddit.user.model.UserVo;
 import kr.or.ddit.user.repository.UserDao;
 import kr.or.ddit.user.service.UserService;
 

@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import kr.or.ddit.user.UserVo;
+import kr.or.ddit.user.model.UserVo;
 import kr.or.ddit.user.repository.UserDao;
 import kr.or.ddit.user.service.UserService;
 

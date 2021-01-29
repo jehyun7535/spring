@@ -1,6 +1,6 @@
 package kr.or.ddit.user.service;
 
-import kr.or.ddit.user.UserVo;
+import kr.or.ddit.user.model.UserVo;
 
 public interface UserService {
 	
