@@ -22,7 +22,7 @@ public class ComponentScanJavaTest {
 	@Resource(name="userDao")
 	private UserDao userDao;
 	
-	@Resource(name="userServiceImpl")
+	@Resource(name="userService")
 	private UserService userService;
 	
 //Repository 어노테이션을 적용한 userDaoImpl 스프링 빈이 정상적으로 컨테이너에 등록되었는지 확인
@@ -30,7 +30,7 @@ public class ComponentScanJavaTest {
 	public void userDaoImplSpringBeanTest() {
 		assertNotNull(userDao);
 		
-		UserVo userVo = userDao.getUser("brown");
+		UserVo userVo = userDao.selectUser("brown");
 		assertEquals("브라운", userVo.getUsernm());
 		
 	}
@@ -41,7 +41,7 @@ public class ComponentScanJavaTest {
 	public void userServiceImplSpringBeanTest() {
 		assertNotNull(userService);
 		
-		UserVo userVo = userService.getUser("brown");
+		UserVo userVo = userService.selectUser("brown");
 		assertEquals("브라운", userVo.getUsernm());
 		
 	}

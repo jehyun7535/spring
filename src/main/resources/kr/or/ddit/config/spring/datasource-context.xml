@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+
+<!-- 1. Datasource
+
+		BasicDataSource bs = new BasicDataSource();
+		bs.setDriverClassName("oracle.jdbc.driver.OracleDriver");
+		bs.setUrl("jdbc:oracle:thin:@localhost:1521:xe");
+		bs.setUsername("jehyun");
+		bs.setPassword("java");
+		bs.setInitialSize(20);
+
+	 2. SqlSessionFactoryBean
+	 3. sqlSessionTemplate 
+	 
+	 -->
+	
+	<context:property-placeholder location="classpath:/kr/or/ddit/config/db/dbinfo.properties"/>
+	 
+	 <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource">
+	 	<property name="driverClassName" value="${jdbc.driverClassName}"/>
+	 	<property name="url" value="${jdbc.url}"/>
+	 	<property name="username" value="${jdbc.username}"/>
+	 	<property name="password" value="${jdbc.password}"/>
+	 	<property name="initialSize" value="3"/>	 	
+	 </bean>
+	 
+	 <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+	 	<property name="configLocation" value="classpath:/kr/or/ddit/config/mybatis/mybatis-config.xml"/>
+	 	<property name="dataSource" ref="dataSource"/>
+	 </bean>
+	 
+	 <bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
+	 	<constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory"/>
+	 </bean>
+	 
+</beans>

@@ -69,8 +69,10 @@ servlet 환경에서는 servlet 자체를 테스트하기가 굉장히 어려움
  ==> 손이 많이 간다.
  
  spring 프레임워크에서 처리될 요청은 Dispatcher Servlet이 받으므로
- Dispatcher Servlet을 대신하여 테스트 할 수 있는 객체를 제공하는 형식으로 컨트롤러 
+ Dispatcher Servlet을 대신하여 테스트 할 수 있는 객체를 제공하는 형식으로 컨트롤러
  테스트를 진행
 
- DispatcherServlet ==> MockMvc
+ DispatcherServlet ==> MockMvc 생성을 위해서
+ 					   WebApplicationContext 객체가 필요
+ 					   ==> 스프링 
   
