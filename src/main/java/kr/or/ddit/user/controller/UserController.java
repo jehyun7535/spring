@@ -3,9 +3,11 @@ package kr.or.ddit.user.controller;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 import javax.annotation.Resource;
@@ -31,7 +33,7 @@ import kr.or.ddit.user.model.UserVo;
 import kr.or.ddit.user.service.UserService;
 
 @Controller
-@RequestMapping("user")
+@RequestMapping("user") //자바 폴더명 ex= 대전
 public class UserController extends HttpServlet {
 
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
@@ -39,7 +41,7 @@ public class UserController extends HttpServlet {
 	@Resource(name="userService")
 	private UserService userService;
 
-	@RequestMapping("allUser")
+	@RequestMapping("allUser") //폴더명 안 각자의 주소 ex= 대전 안의 갈마동
 	public String view(Model model) {
 		
 		model.addAttribute("userList", userService.selectAllUser());
@@ -55,20 +57,14 @@ public class UserController extends HttpServlet {
 		return "tiles.user.allUser";
 	}
 	
+	
 	@RequestMapping(path="user", method=RequestMethod.GET)
 	public String user(String userid, Model model) {
 		
 		model.addAttribute("user", userService.selectUser(userid));
 		
-		return "user/user";
-	}
-	
-	@RequestMapping(path="userTiles", method=RequestMethod.GET)
-	public String userTiles(String userid, Model model) {
-		
-		model.addAttribute("user", userService.selectUser(userid));
-		
 		return "tiles.user.user";
+		//return "user/user";
 	}
 	
 	@RequestMapping(path = "/userModify", method = {RequestMethod.GET})
@@ -76,31 +72,55 @@ public class UserController extends HttpServlet {
 		
 		model.addAttribute("user", userService.selectUser(userid));
 		
-		return "user/userModify";
+		return "user/userModify"; //jsp 주소
 	}
 
 	@RequestMapping(path="userModify", method= {RequestMethod.POST})
-	public String modify(UserVo userVo, MultipartFile profile, RedirectAttributes ra, Model model) {
+	public String modify(UserVo userVo, MultipartFile profile, RedirectAttributes ra, Model model,
+			@RequestParam("reg_dt2")String reg_dt2) {
 		
 		logger.debug("modify post");
-		String originalFilename = "";
-		String filename = "";
+		String originalFilename = ""; //realfilename
+		String filename = "";	//filename
 		int updateCnt = 0;
-		if(profile.isEmpty() && profile.getSize() > 0) {
+		if(profile.getSize() > 0) {
 			 originalFilename = profile.getOriginalFilename();
+			 
+			//  (.) <-- 이게그냥. originalFilename.substring(originalFilename.lastIndexOf(".") + 1);  <-- 이게 확장명(png)
 			 filename = UUID.randomUUID().toString() + "." + originalFilename.substring(originalFilename.lastIndexOf(".") + 1);
 			
-		
-			
 			try {
-				profile.transferTo(new File("d:\\upload\\" + userVo.getRealfilename()));
+				//파일 저장
+				profile.transferTo(new File("d:\\upload\\" + filename));
+
 			} catch (IllegalStateException | IOException e) {
 				e.printStackTrace();
 			}
 		}
-		updateCnt = userService.modifyUser(userVo);
+		
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		Date parseDate = null;
+		try {
+			parseDate = dateFormat.parse(reg_dt2);
+		}catch (ParseException e) {
+			e.printStackTrace();
+		}
+		userVo.setReg_dt(parseDate);
+		
 		userVo.setFilename(originalFilename);
+		if(filename.equals("")) {
+		userVo.setRealfilename(filename);
+		//파일이 없을때 오류가 나기때문에 없을 때는 null값 들어가게함
+		logger.debug("modify post1");
+		}
+		else {
+			logger.debug("modify post2");
 		userVo.setRealfilename("d:\\upload\\" + filename);
+		//파일이 불러오기 위해 경로와 파일명으로 값을 젖아
+		}
+		
+		//객체생성 후 수정
+		updateCnt = userService.modifyUser(userVo);
 		
 		//사용자 수정이 정상적으로 된 경우	==> 해당 사용자의 상세조회 페이지로 이동
 		if(updateCnt == 1) {
@@ -115,14 +135,19 @@ public class UserController extends HttpServlet {
 
 	@RequestMapping(path="registUser", method=RequestMethod.GET)
 	public String regist() {
-		return "user/registUser";
+//		return "user/registUser";
+		return "tiles.user.registUser";
 	}
+	
+//	@RequestMapping(path="registUserTiles", method=RequestMethod.GET)
+//	public String registTiles() {
+//		return "user/registUser";
+//		return "tiles.user.registUser";
+//	}
 	
 	@RequestMapping(path="registUser", method=RequestMethod.POST)
 	public String regist(@Valid UserVo userVo, BindingResult result, MultipartFile profile, Model model) {
 		//BindingResult 은 커맨드 객체(UserVo) 바로 뒤에 인자로 기술해야 한다.
-		
-
 //		new UserVoValidator().validate(userVo, result);
 		
 		if(result.hasErrors()) {
@@ -140,15 +165,23 @@ public class UserController extends HttpServlet {
 			originalFilename = profile.getOriginalFilename();
 			filename = UUID.randomUUID().toString() + "." + originalFilename.substring(originalFilename.lastIndexOf(".") + 1);
 			logger.debug("진입2");
-			
 			try {
-				profile.transferTo(new File("d:\\upload\\" + userVo.getRealfilename()));
+				logger.debug("리얼파일{}", filename);
+				logger.debug("파일{}", originalFilename);
+
+				profile.transferTo(new File("d:\\upload\\" + filename));
 			} catch (IllegalStateException | IOException e) {
 				e.printStackTrace();
 			}
 		}
 			userVo.setFilename(originalFilename);
+			if(filename.equals("")) {
+			userVo.setRealfilename(filename);
+			}
+			else {
 			userVo.setRealfilename("d:\\upload\\" + filename);
+			}
+			
 			insertCnt = userService.registUser(userVo);
 
 		//사용자 등록이 정상적으로 된 경우	==> 사용자 페이징 리스트로 이동(1페이지)
@@ -175,8 +208,6 @@ public class UserController extends HttpServlet {
 		}
 		return "main";
 	}
-	
-	
 	
 	//@RequestMapping("pagingUser")
 	public String paigingUser(@RequestParam(defaultValue= "1" ) int page,
@@ -241,6 +272,40 @@ public class UserController extends HttpServlet {
 		return "tiles.user.pagingUser";
 	}
 	
+	@RequestMapping("pagingUserAjax")
+	public String pagingUserAjax(@RequestParam(defaultValue= "1" ) int page,
+			@RequestParam(defaultValue= "5") int pageSize,
+			Model model) {
+		
+		PageVo pageVo = new PageVo(page, pageSize);
+		
+		model.addAllAttributes(userService.selectPagingUser(pageVo));
+
+		return "jsonView";
+	}
+	
+	@RequestMapping("pagingUserAjaxHtml")
+	public String pagingUserAjaxHtml(@RequestParam(defaultValue= "1" ) int page,
+			@RequestParam(defaultValue= "5") int pageSize,
+			Model model) {
+		
+		PageVo pageVo = new PageVo(page, pageSize);
+		
+		model.addAllAttributes(userService.selectPagingUser(pageVo));
+		
+		return "user/pagingUserAjaxHtml";
+		
+		/*
+		 * pagingUserajaxHtml ==> /WEB-INF/views/user/pagingUserAjaxHtml.jsp
+		 */
+	}
+	
+	//사용자 리스트가 없는 상태의 화면만 응답으로 생성
+	@RequestMapping("pagingUserAjaxView")
+	public String pagingUserAjaxView() {
+		
+		return "tiles.user.pagingUserAjax";
+	}
 	
 	@RequestMapping("excelDownload")
 	public String excelDownload(Model model) {
@@ -288,4 +353,51 @@ public class UserController extends HttpServlet {
 			e.printStackTrace();
 		}
 	}
+	
+	@RequestMapping("profileDownload")
+	public void profileDownload(String userid, HttpServletRequest req, HttpServletResponse resp) {
+		
+		UserVo userVo= userService.selectUser(userid);
+		
+		String path = "";
+		String filename = "";
+		if(userVo.getRealfilename() == null) {
+			path = req.getServletContext().getRealPath("/image/da.png");
+			filename= "da.png";
+			//사진 없으면 da.png 나옴
+		}
+		else {
+			path = userVo.getRealfilename(); //d드라이브 경로값 가져오기
+			filename= userVo.getFilename();
+		}
+		
+		//파일 보내기 설정
+		resp.setHeader("Content-Disposition", "attachment; filename=" + filename);
+		
+		// userid 파라미터를 이용하여
+		// userService 객체를 통해 사용자의 사진 파일 이름을 획득
+		// 파일 입출력을 통해 사진을 읽어들여 resp객체의 outputStream으로 응답 생성
+		
+		logger.debug("path : {} ", path);
+		
+		try { //파일 가져와서 서블릿에 표출하여 다운로드
+			FileInputStream fis = new FileInputStream(path);
+			ServletOutputStream sos =  resp.getOutputStream();
+			
+			byte[] buff = new byte[512];
+			
+			while(fis.read(buff) != -1) {
+				sos.write(buff);
+			}
+			
+			// 호출된 메소드를 종료시켜줘야함
+			// 메모리 잡아먹음 계속 실행되서.
+			fis.close();
+			sos.close();
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 }

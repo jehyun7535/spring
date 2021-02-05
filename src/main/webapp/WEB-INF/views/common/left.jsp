@@ -7,7 +7,9 @@
 	<li class="active"><a href="${cp}/user/allUserTiles">전체 사용자(타일즈)</a></li>
 	<li class="active"><a href="${cp}/user/pagingUser">사용자 페이징 리스트</a></li>	
 	<li class="active"><a href="${cp}/user/pagingUserTiles">사용자 페이징 리스트(타일즈)</a></li>	
+	<li class="active"><a href="${cp}/user/pagingUserAjaxView">사용자 페이징 리스트(ajax)</a></li>	
 	<li class="active"><a href="${cp}/user/registUser">사용자 등록</a></li>	
+<%-- 		<li class="active"><a href="${cp}/user/registUserTiles">사용자 등록(타일즈)</a></li>	 --%>
 	<%--
 		localhost/pagingUser?page=1&pageSize=5 로 요청시
 		pagingUser.jsp에서 페이지에 해당하는 상요자 5명만 출력 되도록 개발

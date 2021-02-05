@@ -32,7 +32,7 @@ public class PerformanceCheckInterceptor extends HandlerInterceptorAdapter{
 		long endTime = System.nanoTime();
 		long startTime = (long)request.getAttribute("startTime");
 
-		logger.debug("duration : {}", endTime-startTime);
+		logger.debug("uri {}, duration : {}", request.getRequestURI(), endTime-startTime);
 		
 	}
 }

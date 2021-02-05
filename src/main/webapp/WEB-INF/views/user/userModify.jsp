@@ -106,7 +106,7 @@ $(function(){
 					<div class="form-group">
 						<label for="reg_dt" class="col-sm-2 control-label">등록일시</label>
 						<div class="col-sm-10">
-							<input type="text" class="form-control" id="reg_dt" name="reg_dt"
+							<input type="text" class="form-control" id="reg_dt" name="reg_dt2"
 								placeholder="" value='<fmt:formatDate value="${user.reg_dt }" pattern="yyyy-MM-dd"/>'/>
 						</div>
 					</div>

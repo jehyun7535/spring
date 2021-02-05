@@ -1,11 +1,14 @@
 package kr.or.ddit.user.model;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.validation.constraints.Size;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.NumberFormat;
+
+import freemarker.template.SimpleDate;
 
 public class UserVo {
 	
@@ -70,6 +73,10 @@ public class UserVo {
 	
 	public Date getReg_dt() {
 		return reg_dt;
+	}
+	
+	public String getReg_dt_fmt() {
+		return new SimpleDateFormat("yyyy-MM-dd").format(reg_dt);
 	}
 
 	public void setReg_dt(Date reg_dt) {

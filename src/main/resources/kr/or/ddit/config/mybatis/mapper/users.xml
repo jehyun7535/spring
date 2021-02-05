@@ -41,7 +41,7 @@
 	<update id="modifyUser" parameterType="userVo">
 		UPDATE users SET usernm = #{usernm},
 		pass = #{pass},
-		reg_dt = #{reg_dt},
+		<!-- reg_dt = #{reg_dt}, -->
 		alias = #{alias},
 		addr1 = #{addr1},
 		addr2 = #{addr2},

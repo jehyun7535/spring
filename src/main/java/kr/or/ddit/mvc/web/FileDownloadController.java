@@ -28,7 +28,7 @@ public class FileDownloadController {
 		//	1. 다운로드 파일의 경로 ==> realFilename
 		//	2. 다운로드시 보여줄 파일명 => filename
 		//	1, 2를 model에 넣어준다
-		//	userid 파라미터를 보낸다고 갖어
+		//	userid 파라미터를 보낸다고 가정
 		//	파라미터를 이용하여 해당 사용자의 사진정보 (realFiname, filename)을 조회
 
 		UserVo userVo = userService.selectUser(userid);
