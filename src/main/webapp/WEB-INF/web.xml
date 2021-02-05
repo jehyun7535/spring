@@ -13,12 +13,13 @@
 		<welcome-file>default.jsp</welcome-file>
 	</welcome-file-list>
 
-<context-param>
-	<param-name>contextConfigLocation</param-name>
-	<param-value>classpath:/kr/or/ddit/config/spring/root-context.xml
-				classpath:/kr/or/ddit/config/spring/datasource-context.xml
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>classpath:/kr/or/ddit/config/spring/root-context.xml
+				 	classpath:/kr/or/ddit/config/spring/datasource-context.xml
 	</param-value>
-</context-param>
+	</context-param>
+<!-- 				 	classpath:/kr/or/ddit/config/spring/aop-context.xml -->
 
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
@@ -31,7 +32,7 @@
 			<param-name>contextConfigLocation</param-name>
 			<param-value>classpath:/kr/or/ddit/config/spring/application-context.xml
 			</param-value>
-<!-- 	로그인 필터적용 classpath:/kr/or/ddit/config/spring/interceptor-context.xml -->
+			<!-- 로그인 필터적용 classpath:/kr/or/ddit/config/spring/interceptor-context.xml -->
 		</init-param>
 	</servlet>
 
@@ -53,6 +54,6 @@
 		<filter-name>characterEncodingFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
-	
-	
+
+
 </web-app>

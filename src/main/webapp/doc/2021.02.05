@@ -29,6 +29,37 @@
 
 ---------------------------
 ajax
+--------------------------
 
+AOP(Aspect Oriented Programing) : 여러 클래스로 분산된 책임(기능)을 별도의 관점으로
+분리/캡슐화 하는 프로그래밍 방법
 
-	
+* class에서 핵심기능(SQL, business logic)과 부가기능(db connection) 혼재
+-> OOP : 하나의 클래스는 하나의 관심사에 집중
+
+* 순수 OOP 에서는 핵심기능과 부가기능을 분리하기 어렵다
+-> AOP의 필요 배경
+
+* AOP는 OOP를 대체하는 개념이 아닌 보완 하는 개념
+
+ Aspect : 여러 객체에 공통으로 적용되는 관심사항
+ Advice : 공통 관심 기능을 언제 핵심 로직에 적용할지 정의
+ 		(ex: 메소드 호출전에 공통 관심 기능을 호출한다)
+ Advisor : Advice를 지칭(spring aop에서만 사용하는 개념)
+ proxy : 핵심 기능을 구현한 객체에 advice가 적용된 객체
+ JoinPoint : Advice가 적용될 시점/지점(메소드)
+ PointCut : joinpoint의 식별을 정의(어떤 메소드에...)
+ Weaving : Advice(Aspect)를 핵심 로직 코드에 삽입하는것
+ 
+Filter/ Aop/ interceptor 비교
+
+filter
+spring container에 포함되지않음 -> 기본 설정에서는 DI 활용 불가
+
+Aop
+범용적
+일시적은 설정 보다는 어플리케이션 전반에 대한 설정에 적합
+
+interceptor
+DI가능/ 설정 간단
+요청에 대한 전후 처리에 적당
