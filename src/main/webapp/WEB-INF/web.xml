@@ -13,18 +13,23 @@
 		<welcome-file>default.jsp</welcome-file>
 	</welcome-file-list>
 
+	<!-- 설정파일의 위치를 알려주어야 해서 <context-param> 안에 contextConfigLocation 이라고 해서 
+		위치를 지정해 주는 것. -->
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>classpath:/kr/or/ddit/config/spring/root-context.xml
 				 	classpath:/kr/or/ddit/config/spring/datasource-context.xml
 	</param-value>
 	</context-param>
-<!-- 				 	classpath:/kr/or/ddit/config/spring/aop-context.xml -->
+	<!-- classpath:/kr/or/ddit/config/spring/aop-context.xml -->
 
+
+	<!-- 스프링 설정파일을 읽어 들이기 위해서 ContextLoaderListener 필요하다 -->
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
-
+	
+<!-- dis 치면 매핑까지 다나옴 -->
 	<servlet>
 		<servlet-name>dispatcherServlet</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
@@ -36,10 +41,20 @@
 		</init-param>
 	</servlet>
 
+	<!-- DispatherServlet은 클라이언트의 요청을 전달받는 서블릿으로서, 컨트롤러나 뷰와 같은 스프링 MVC의 구성 요소를 
+		이용하여 클라이언트에게 서비스를 제공하게 된다. -->
+
+
+	<!-- 클라이언트로부터 어떠한 요청이 오면 Tomcat(톰캣)과 같은 서블릿컨테이너가 요청을 받는데, 이때 제일 앞에서 서버로 
+		들어오는 모든 요청을 처리하는 *프론트 컨트롤러를 Spring에서 정의하였고, 이를 Dispatcher-Servlet이라고 합니다. 
+		그래서 공통처리 작업을 Dispatcher 서블릿이 처리한 후, 적절한 세부 컨트롤러로 작업을 위임해줍니다. 물론 Dispatcher-Servlet이 
+		처리하는 url 패턴을 지정해주어야 하는데 일반적으로는 /*.do와 같으 /로 시작하며 .do로 끝나는 url 패턴에 대해서 처리하라고 
+		지정해줍니다. -->
 	<servlet-mapping>
 		<servlet-name>dispatcherServlet</servlet-name>
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
+
 
 	<!-- post parameter encoding -->
 	<filter>

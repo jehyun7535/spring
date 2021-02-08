@@ -17,7 +17,9 @@
 	</tr>
 </c:forEach>
 
+<!-- 배열로 들어가서 0번쨰 -->
 ####################
+<!-- 배열로 들어가서 1번쨰 -->
 
 <li class="prev">
 <%-- <a href="${cp}/user/pagingUser?page=1&pageSize=${pageVo.pageSize}">«</a> --%>

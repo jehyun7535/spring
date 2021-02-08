@@ -38,10 +38,12 @@
 		</property>
 	</bean>
 	
+	<!-- 뷰 이름과 동일한 이름을 갖는 빈을 뷰 객체로 사용, 주로 커스텀 view 클래스를 뷰로 사용해야 하는 경우에 사용 -->
 	<bean class="org.springframework.web.servlet.view.BeanNameViewResolver">
 		<property name="order" value="1"/>
 	</bean>
 
+	<!-- 자바 객체를 JSON으로 변환해서 보여주는 뷰 구현 클래스 -->
 	<bean id="jsonView" class="org.springframework.web.servlet.view.json.MappingJackson2JsonView"/>
 	<bean id="fd" class="kr.or.ddit.view.FileDownloadView"/>
 	<bean id="userExcelDownloadView" class="kr.or.ddit.view.ExcelDownloadView"/>
@@ -49,7 +51,8 @@
 	<!-- view resolver 등록 (여러개를 등록하는 것이 가능) 
 		jsp ==> InternalResourceViewResolver
 	-->
-
+	
+	<!-- 뷰 이름으로부터 JSP나 Tiles 연동을 위한 View 객체를 리턴 -->
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="order" value="2"/>	
 		<property name="prefix" value="/WEB-INF/views/"/>
@@ -61,5 +64,6 @@
 	<mvc:default-servlet-handler/>
 	<!-- 이거 주석하면 css, js 안먹는다. -->
 	
+	<!-- 파일다운로드 Multipart 지원 기능 -->
 	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"/>
 </beans>
