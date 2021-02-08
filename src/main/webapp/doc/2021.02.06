@@ -1,0 +1,45 @@
+--배치 프로그램 구현하기--
+
+배치(일괄처리)란?
+
+연속적으로 이어져 진행되는 작업들을 하나의 작업 단위로 패키징 하여
+처리하는 행위 (주기적으로 실행되는 작업을 의미하기도 함)
+
+용어
+* Job Repository : 배치 실행 정보를 저장(db/ none)
+* Job Launcher : 배치 실행을 담당 기반 컴포넌트
+* Job : 배치 처리를 통해 실행하는 애플리케이션
+* Step : Job의 세부적 단계를 의미한다. Job 은 일련의 연속된 Step 으로 구성
+* Tasklet : Step 내에서 실행되는 작업 단위
+* Item : 특정 리소스(file, db)로 부터 읽어 들여 처리하고자 하는 각 레코드
+
+* Chunk : 특정 크기를 갖는 아이템 목록, 배치처리 되는 단위
+		  (한건씩 매번 commit --> 여러건씩 한번에 처리 commit)		  
+* Item Reader: 특정 리소스로부터 아이템을 읽어들이는 컴포넌트
+* Item Processor : Item Reader 로 읽어 들인 아이템을 가공하는 컴포넌트
+* Item Writer : Item Processor로 부터 전달받은 아이템 Chunk를 특정 리소스에 저장하는 컴포넌트
+
+* Joblnstance : Job + JobParameter(잡을 실행할때 사용할 값)
+* JobExecution : JobInstance의 실행 정보 (실패후 재 실행시 새로운 JobExecution 생성)
+
+dependency 추가
+* spring-batch-core
+* spring-batch-infrastructure
+* spring-batch-test
+* version : 3.0.10.RELEASE
+
+1. pom (dependency)
+2. reader, writer, processor
+
+reader => ItemReader 구현
+processor => ItemProcessor 구현
+writer => ItemWriter 구현
+
+K ==> key
+V ==> Value
+T ==> Type
+
+I ==> In 
+O ==> Out
+
+	
